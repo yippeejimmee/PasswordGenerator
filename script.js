@@ -9,28 +9,23 @@ var numberChars = arrayLowHigh(48, 57);
 
 var specialChars = arrayLowHigh(33, 47).concat(arrayLowHigh(91, 96)).concat(arrayLowHigh(123, 126));
 
-var generatedPassword = document.querySelector("#password");
-
-
-
+var displayPassword = document.querySelector("#password");
 
 // Write password to the #password input
-
-
 function writePassword() {
   var passwordLength = prompt("How long should your password be? (8-128.)");
 
   //getting length number
   var passwordLengthNumber = Number.parseInt(passwordLength);
 
-    //ensuring number is between 8 and 128
-    while (passwordLengthNumber < 8 || passwordLengthNumber > 128) {
+  //ensuring number is between 8 and 128 and is number ror else repeat prompt
+  while ((passwordLengthNumber < 8 || passwordLengthNumber > 128) || isNaN(passwordLengthNumber)){
 
     var passwordLength = prompt("Please enter number between 8 and 128.");
 
     var passwordLengthNumber = Number.parseInt(passwordLength);
 
-    }
+  }
 
   var uppercaseCheck = confirm("Include capital letters?");
 
@@ -38,46 +33,61 @@ function writePassword() {
 
   var specialCheck = confirm("Include special characters?");
 
-  totalCharArray = generateTotalArray(uppercaseCheck, numberCheck, specialCheck);
+  generatedPassword = generateTotalArray(uppercaseCheck, numberCheck, specialCheck, passwordLengthNumber);
 
-  for (let index = 0; index < passwordLengthNumber; index++) {
-    const element = array[index];
-    
+  console.log(generatedPassword);
+
+  displayPassword.textContent = generatedPassword;
+
+}
+
+function generateTotalArray(upperCase, lowerCase, special, passwordLength) {
+
+  let totalCharArray = lowerCaseChars;
+
+  if (upperCase == true) {
+
+    totalCharArray = totalCharArray.concat(upperCaseChars);
+
   }
 
-  console.log(passwordLengthNumber, uppercaseCheck, numberCheck, specialCheck);
-  console.log(lowerCaseChars, upperCaseChars, numberChars, specialChars);
+  if (lowerCase == true) {
 
-}
-
-function generateTotalArray(a, b, c) {
-  let totalCharArray = lowerCaseChars;
-  if (a == true){
-    totalCharArray = totalCharArray.concat(upperCaseChars);
-    }
-    if (b == true){
     totalCharArray = totalCharArray.concat(numberChars);
-    }
-    if (c == true){
+
+  }
+
+  if (special == true) {
+
     totalCharArray = totalCharArray.concat(specialChars);
-    }
-    console.log(totalCharArray);
-    console.log("JJJJJ");
+
+  }
+
+  const createdPassword = []
+
+  for (let i = 0; i < passwordLength; i++) {
+
+    const char = totalCharArray[Math.floor(Math.random() * totalCharArray.length)]
+
+    createdPassword.push(String.fromCharCode(char))
+  }
+
+  return createdPassword.join('');
+
 }
-
-function getRandomInt(max) {
-
-  return Math.floor(Math.random() * max);
-}
-
-
 
 function arrayLowHigh(low, high) {
-  const numberArray = [] 
+
+  const numberArray = []
+
   for (let i = low; i <= high; i++) {
+
     numberArray.push(i);
+
   }
+
   return numberArray;
+  
 }
 
 // Add event listener to generate button
