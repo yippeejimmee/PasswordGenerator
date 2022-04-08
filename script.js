@@ -26,25 +26,27 @@ function writePassword() {
     var passwordLengthNumber = Number.parseInt(passwordLength);
 
   }
-
+  //checking with user if they want to include capital letters, numbers, or special characters
   var uppercaseCheck = confirm("Include capital letters?");
 
   var numberCheck = confirm("Include numbers?");
 
   var specialCheck = confirm("Include special characters?");
 
+  //calling function generateTotalArray with the arguments received by user
   generatedPassword = generateTotalArray(uppercaseCheck, numberCheck, specialCheck, passwordLengthNumber);
 
-  console.log(generatedPassword);
-
+  //showing the generated password on the webpage
   displayPassword.textContent = generatedPassword;
 
 }
 
+//the function for creating password
 function generateTotalArray(upperCase, lowerCase, special, passwordLength) {
 
   let totalCharArray = lowerCaseChars;
 
+  //adding the arrays of the different letters and symbols to total array if the user wants to
   if (upperCase == true) {
 
     totalCharArray = totalCharArray.concat(upperCaseChars);
@@ -65,6 +67,7 @@ function generateTotalArray(upperCase, lowerCase, special, passwordLength) {
 
   const createdPassword = []
 
+  //iterating through each array and pushing it to array createdPassword while also changing the index from a charcode to actual letters and symbols
   for (let i = 0; i < passwordLength; i++) {
 
     const char = totalCharArray[Math.floor(Math.random() * totalCharArray.length)]
@@ -72,10 +75,12 @@ function generateTotalArray(upperCase, lowerCase, special, passwordLength) {
     createdPassword.push(String.fromCharCode(char))
   }
 
+  //returns the created password as a string
   return createdPassword.join('');
 
 }
 
+//function for creating array of lowercase, uppercase, special case, and number character codes by iterating through and pushing to appropriate array
 function arrayLowHigh(low, high) {
 
   const numberArray = []
@@ -87,7 +92,7 @@ function arrayLowHigh(low, high) {
   }
 
   return numberArray;
-  
+
 }
 
 // Add event listener to generate button
